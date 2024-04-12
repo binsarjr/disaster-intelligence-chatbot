@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import { WhatsappActionModule } from '@app/whatsapp-action';
 import { ScanQrCodeAction } from '@app/whatsapp-action/scan-qr-code.action';
 import { WhatsappConnectionService } from '@app/whatsapp/core/whatsapp-connection.service';
