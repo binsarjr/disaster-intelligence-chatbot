@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 export const applyMethodMetadata = (
   options: any,
   metadataKey: string,
