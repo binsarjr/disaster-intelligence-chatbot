@@ -1,0 +1,8 @@
+lib
+.env
+.auths
+.data_store
+node_modules
+database.json
+dist
+dev.db
