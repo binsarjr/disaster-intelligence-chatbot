@@ -165,3 +165,20 @@ export const downloadQuotedMessageMedia = async (
 
   return buffer;
 };
+
+// export const getMessage = (message: WAMessage): WAMessage => {
+//   switch (getContentType(message.message)) {
+//     case 'viewOnceMessage':
+//       return message.message.viewOnceMessage as WAMessage;
+//     case 'viewOnceMessageV2':
+//       return message.message.viewOnceMessageV2 as WAMessage;
+//     case 'viewOnceMessageV2Extension':
+//       return message.message.viewOnceMessageV2Extension as WAMessage;
+//     case 'ephemeralMessage':
+//       return message.message.ephemeralMessage as WAMessage;
+//     case 'documentWithCaptionMessage':
+//       return message.message.documentWithCaptionMessage as WAMessage;
+//     default:
+//       return message;
+//   }
+// };

@@ -12,6 +12,7 @@ import { ImgToStickerAction } from '@app/whatsapp-action/random/img-to-sticker.a
 import { PingAction } from '@app/whatsapp-action/random/ping.action';
 import { StickerToImgAction } from '@app/whatsapp-action/random/sticker-to-img.action';
 import { ScanQrCodeAction } from '@app/whatsapp-action/scan-qr-code.action';
+import { AntiCallAction } from '@app/whatsapp-action/spam/anti-call.action';
 import { Module } from '@nestjs/common';
 
 @Module({
@@ -34,6 +35,9 @@ import { Module } from '@nestjs/common';
     // downloader
     InstagramDownloaderAction,
     TiktokDownloaderAction,
+
+    // spam module
+    AntiCallAction,
   ],
 })
 export class WhatsappActionModule {}
