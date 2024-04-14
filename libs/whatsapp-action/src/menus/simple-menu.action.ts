@@ -22,7 +22,9 @@ export class SimpleMenuAction extends WhatsappMessageAction {
     return `
 Menu:
 - *${withSign('tt')} <link>* - Download video from TikTok
+- *${withSign('ttaudio')} <link>* - Download audio from TikTok
 - *${withSign('ig')} <link>* - Download video from Instagram
+- *${withSign('igaudio')} <link>* - Download audio from Instagram
 - *${withSign('hd')}* - convert image to HD
 - *${withSign('s')}* - image to sticker
 - *${withSign('stiker')}* - image to sticker 
