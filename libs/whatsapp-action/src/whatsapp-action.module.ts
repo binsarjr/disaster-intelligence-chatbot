@@ -1,3 +1,4 @@
+import { AntiCallAction } from '@app/whatsapp-action/always-executed/spam/anti-call.action';
 import { InstagramDownloaderAction } from '@app/whatsapp-action/downloader/instagram-downloader.action';
 import { TiktokDownloaderAction } from '@app/whatsapp-action/downloader/tiktok-downloader.action';
 import { AddMemberAction } from '@app/whatsapp-action/group/add-member.action';
@@ -12,7 +13,6 @@ import { ImgToStickerAction } from '@app/whatsapp-action/random/img-to-sticker.a
 import { PingAction } from '@app/whatsapp-action/random/ping.action';
 import { StickerToImgAction } from '@app/whatsapp-action/random/sticker-to-img.action';
 import { ScanQrCodeAction } from '@app/whatsapp-action/scan-qr-code.action';
-import { AntiCallAction } from '@app/whatsapp-action/spam/anti-call.action';
 import { Module } from '@nestjs/common';
 
 @Module({
