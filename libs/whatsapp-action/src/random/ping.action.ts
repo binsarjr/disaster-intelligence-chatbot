@@ -5,6 +5,7 @@ import { withSign } from '@app/whatsapp/supports/flag.support';
 import type { WAMessage, WASocket } from '@whiskeysockets/baileys';
 import { exec } from 'child_process';
 import * as os from 'os';
+import { injectRandomHiddenText } from 'src/supports/str.support';
 import * as util from 'util';
 
 @WhatsappMessage({
@@ -38,7 +39,8 @@ Mount: ${disk.mount}
     socket.sendMessage(
       message.key.remoteJid,
       {
-        text: `
+        text: injectRandomHiddenText(
+          `
 
     
 ${this.getPing(message.messageTimestamp! as number)}
@@ -47,14 +49,14 @@ ${this.getPing(message.messageTimestamp! as number)}
 *Uptime:* ${serverInfo.uptime}
 
 *OS:* ${serverInfo.os.platform} ${serverInfo.os.type} ${
-          serverInfo.os.release
-        } ${serverInfo.os.arch}
+            serverInfo.os.release
+          } ${serverInfo.os.arch}
 *CPU:* ${serverInfo.cpu.model} ${serverInfo.cpu.speed} MHz ${
-          serverInfo.cpu.cores
-        } cores
+            serverInfo.cpu.cores
+          } cores
 *Virtual Memory:* ${this.bytesToGB(usedMemory)} / ${this.bytesToGB(
-          totalMemory,
-        )} (${Math.round((usedMemory / totalMemory) * 100)}%)
+            totalMemory,
+          )} (${Math.round((usedMemory / totalMemory) * 100)}%)
 
 *Disk:* 
 ${textDisk.join('\n\n')}
@@ -63,6 +65,7 @@ ${textDisk.join('\n\n')}
       
       
               `.trim(),
+        ),
       },
       {
         quoted: message,
