@@ -1,0 +1,15 @@
+# sistemd configuration for run node dist/main.js
+[Unit]
+Description=Whatsapp Bot
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/user/personal-assistant
+ExecStart=/usr/bin/node /home/user/personal-assistant/dist/main.js
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
