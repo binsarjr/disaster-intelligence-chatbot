@@ -1,18 +1,15 @@
 import { WAEvent } from '@app/whatsapp/decorators/wa-event.decorator';
-import { WhatsappMessage } from '@app/whatsapp/decorators/whatsapp-message.decorator';
-import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interface';
+import { Injectable } from '@nestjs/common';
 import {
   delay,
   isJidUser,
-  WAMessageStubType,
   type WACallEvent,
-  type WAMessage,
   type WASocket,
 } from '@whiskeysockets/baileys';
 import { randomInteger } from 'src/supports/number.support';
 
-@WhatsappMessage()
-export class AntiCallAction extends WhatsappMessageAction {
+@Injectable()
+export class RejectCallAction {
   @WAEvent('call')
   async onCall(socket: WASocket, calls: WACallEvent[]) {
     for (const call of calls) {
@@ -26,20 +23,6 @@ export class AntiCallAction extends WhatsappMessageAction {
           text: 'Please do not call me',
         });
       }
-    }
-  }
-
-  async execute(socket: WASocket, message: WAMessage) {
-    if (
-      [
-        WAMessageStubType.CALL_MISSED_VIDEO,
-        WAMessageStubType.CALL_MISSED_VOICE,
-      ].includes(message.messageStubType)
-    ) {
-      await socket.sendMessage(message.key.remoteJid, {
-        text: 'Please do not call me',
-      });
-      return;
     }
   }
 }

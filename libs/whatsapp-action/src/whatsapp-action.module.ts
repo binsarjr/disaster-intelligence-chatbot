@@ -1,4 +1,4 @@
-import { AntiCallAction } from '@app/whatsapp-action/always-executed/spam/anti-call.action';
+import { RejectCallAction } from '@app/whatsapp-action/always-executed/spam/reject-call.action';
 import { InstagramDownloaderAction } from '@app/whatsapp-action/downloader/instagram-downloader.action';
 import { TiktokDownloaderAction } from '@app/whatsapp-action/downloader/tiktok-downloader.action';
 import { AddMemberAction } from '@app/whatsapp-action/group/add-member.action';
@@ -36,8 +36,7 @@ import { Module } from '@nestjs/common';
     InstagramDownloaderAction,
     TiktokDownloaderAction,
 
-    // spam module
-    AntiCallAction,
+    RejectCallAction,
   ],
 })
 export class WhatsappActionModule {}
