@@ -1,4 +1,5 @@
 import { MediaSaver } from '@app/external-module/mediasaver';
+import { ReadMoreUnicode } from '@app/whatsapp/constants';
 import { WhatsappMessage } from '@app/whatsapp/decorators/whatsapp-message.decorator';
 import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interface';
 import { withSign, withSignRegex } from '@app/whatsapp/supports/flag.support';
@@ -40,7 +41,10 @@ export class TiktokDownloaderAction extends WhatsappMessageAction {
       urls.map(async (url) => {
         const { video, images } = await this.mediaSaver.snaptik(url.toString());
         if (!video && images.length === 0) anyError = true;
-        if (video)
+        let totalImage = 0;
+        let totalVideo = 0;
+
+        if (video) {
           await socket.sendMessage(
             jid,
             {
@@ -50,6 +54,8 @@ export class TiktokDownloaderAction extends WhatsappMessageAction {
             },
             { quoted: message },
           );
+          totalVideo++;
+        }
         for (const image of images) {
           await socket.sendMessage(
             jid,
@@ -58,7 +64,22 @@ export class TiktokDownloaderAction extends WhatsappMessageAction {
             },
             { quoted: message },
           );
+          totalImage++;
         }
+
+        socket.sendMessage(
+          jid,
+          {
+            text: `
+Permintaan berhasil di proses${ReadMoreUnicode}
+${totalImage > 0 ? 'Total Gambar: ' + totalImage : ''}
+${totalVideo > 0 ? 'Total Video: ' + totalVideo : ''}
+
+> ${url}
+              `.trim(),
+          },
+          { quoted: message },
+        );
       }),
     );
     anyError

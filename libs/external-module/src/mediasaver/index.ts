@@ -65,12 +65,32 @@ export class MediaSaver {
   /**
    * TikTok Downloader from bravedown
    */
-  async bravedown(url: string) {
+  async bravedown(url: string, identifier: 'tiktok-downloader') {
     const response = await fetch(
-      this.baseUrl + 'bravedown/tiktok-downloader?url=' + url,
+      this.baseUrl + `bravedown/${identifier}?url=` + url,
     );
 
-    return response.json();
+    const schema = z.object({
+      success: z.boolean(),
+      data: z.object({
+        source: z.string(),
+        title: z.string(),
+        thumbnail: z.string(),
+        duration: z.string(),
+        links: z.array(
+          z.object({
+            url: z.string(),
+            type: z.string(),
+            file: z.string(),
+            quality: z.string(),
+            mute: z.boolean(),
+          }),
+        ),
+      }),
+    });
+    const data = await response.json();
+
+    return schema.parse(data);
   }
 
   async saveTube(identifier: string) {
