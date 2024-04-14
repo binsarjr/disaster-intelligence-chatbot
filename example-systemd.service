@@ -1,4 +1,3 @@
-# sistemd configuration for run node dist/main.js
 [Unit]
 Description=Whatsapp Bot
 After=network.target
