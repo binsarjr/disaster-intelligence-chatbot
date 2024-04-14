@@ -50,7 +50,18 @@ export class WhatsappMessageService {
 
         if (!isEligible) continue;
 
-        instance.execute(socket, message);
+        try {
+          await instance.execute(socket, message);
+        } catch (error) {
+          await socket.sendMessage(
+            socket.user.id,
+            {
+              text: error.message,
+            },
+            { quoted: message },
+          );
+          console.error(error);
+        }
       }
     });
   }
