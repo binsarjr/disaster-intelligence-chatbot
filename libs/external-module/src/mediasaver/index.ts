@@ -96,12 +96,20 @@ export class MediaSaver {
     return schema.parse(data);
   }
 
-  async saveTube(identifier: string) {
+  async saveTube(link: string, identifier: 'downloadAudio') {
     const response = await fetch(
-      this.baseUrl + 'savetube?identifier=' + identifier,
+      this.baseUrl + `savetube/${identifier}?identifier=` + link,
     );
 
-    return response.json();
+    const schema = z.object({
+      data: z.object({
+        url: z.string(),
+      }),
+    });
+
+    const data = await response.json();
+
+    return schema.parse(data);
   }
 
   async ytmate(url: string) {
