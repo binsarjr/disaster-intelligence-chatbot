@@ -1,12 +1,12 @@
 import { WhatsappMessage } from '@app/whatsapp/decorators/whatsapp-message.decorator';
 import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interface';
-import { withSignRegex } from '@app/whatsapp/supports/flag.support';
+import { withSign, withSignRegex } from '@app/whatsapp/supports/flag.support';
 import { getMessageCaption } from '@app/whatsapp/supports/message.support';
 import type { WAMessage, WASocket } from '@whiskeysockets/baileys';
 import { injectRandomHiddenText } from 'src/supports/str.support';
 
 @WhatsappMessage({
-  flags: [withSignRegex('tt .*')],
+  flags: [withSignRegex('tt .*'), withSign('tt')],
 })
 export class TiktokDownloaderAction extends WhatsappMessageAction {
   async execute(socket: WASocket, message: WAMessage) {
