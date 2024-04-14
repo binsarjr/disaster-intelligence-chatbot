@@ -1,8 +1,8 @@
+import { ReadMoreUnicode } from '@app/whatsapp/constants';
 import { WhatsappMessage } from '@app/whatsapp/decorators/whatsapp-message.decorator';
 import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interface';
 import { withSign } from '@app/whatsapp/supports/flag.support';
 import type { WAMessage, WASocket } from '@whiskeysockets/baileys';
-import { injectRandomHiddenText } from 'src/supports/str.support';
 
 @WhatsappMessage({
   flags: [withSign('menu'), withSign('list'), withSign('help')],
@@ -12,7 +12,7 @@ export class SimpleMenuAction extends WhatsappMessageAction {
     await socket.sendMessage(
       message.key.remoteJid!,
       {
-        text: injectRandomHiddenText(this.menu()),
+        text: this.menu(),
       },
       { quoted: message },
     );
@@ -30,6 +30,9 @@ Menu:
 - *${withSign('toimg')}* - sticker to image
 - *${withSign('ping')}* - ping bot
 - *${withSign('menu')}* - Show this menu
+
+${ReadMoreUnicode}
+> Timestamp: ${new Date().toLocaleString()}
 
     `.trim();
   }
