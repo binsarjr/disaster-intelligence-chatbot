@@ -1,24 +1,25 @@
+import { MediaSaver } from '@app/external-module/mediasaver';
 import { WhatsappMessage } from '@app/whatsapp/decorators/whatsapp-message.decorator';
 import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interface';
 import { withSign, withSignRegex } from '@app/whatsapp/supports/flag.support';
 import { getMessageCaption } from '@app/whatsapp/supports/message.support';
 import type { WAMessage, WASocket } from '@whiskeysockets/baileys';
 import { injectRandomHiddenText } from 'src/supports/str.support';
+import { extractUrls } from 'src/supports/url.support';
 
 @WhatsappMessage({
   flags: [withSignRegex('tt .*'), withSign('tt')],
 })
 export class TiktokDownloaderAction extends WhatsappMessageAction {
+  constructor(private readonly mediaSaver: MediaSaver) {
+    super();
+  }
+
   async execute(socket: WASocket, message: WAMessage) {
     this.reactToProcessing(socket, message);
     const text = getMessageCaption(message.message!);
 
-    const urls: URL[] = [];
-    text.split(/\s+/).map((url) => {
-      try {
-        urls.push(new URL(url));
-      } catch (error) {}
-    });
+    const urls: URL[] = extractUrls(text);
     const jid = message.key.remoteJid!;
 
     if (urls.length === 0) {
@@ -37,7 +38,7 @@ export class TiktokDownloaderAction extends WhatsappMessageAction {
     let anyError = false;
     await Promise.all(
       urls.map(async (url) => {
-        const { video, images } = await this.download(url.toString());
+        const { video, images } = await this.mediaSaver.snaptik(url.toString());
         if (!video && images.length === 0) anyError = true;
         if (video)
           await socket.sendMessage(
@@ -64,44 +65,4 @@ export class TiktokDownloaderAction extends WhatsappMessageAction {
       ? this.reactToFailed(socket, message)
       : this.reactToDone(socket, message);
   }
-  protected downloadBraveDown = async (link: string) => {
-    const resp = await fetch(
-      'https://mediasaver.binsarjr.com/services/bravedown/tiktok-downloader?url=' +
-        link,
-    );
-    const json = (await resp.json()) as {
-      data: {
-        links: {
-          url: string;
-          type: 'video';
-          mute: boolean;
-          quality: string;
-        }[];
-      };
-    };
-
-    const video =
-      json.data.links.find(
-        (d) =>
-          d.type === 'video' &&
-          d.quality.toLowerCase().includes('no watermark') &&
-          !d.mute,
-      )?.url || '';
-    return { video, images: [] };
-  };
-
-  protected download = async (
-    link: string,
-  ): Promise<{ video: string; images: string[] }> => {
-    const bravedown = this.downloadBraveDown(link);
-    const resp = await fetch(
-      'https://mediasaver.binsarjr.com/services/tiktok/snaptik?url=' + link,
-    );
-    let json = (await resp.json()) as { video: string; images: string[] };
-
-    if (!json.video && json.images.length == 0) {
-      json = await bravedown;
-    }
-    return json;
-  };
 }

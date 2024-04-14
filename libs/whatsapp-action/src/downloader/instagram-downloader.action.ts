@@ -1,24 +1,24 @@
+import { MediaSaver } from '@app/external-module/mediasaver';
 import { WhatsappMessage } from '@app/whatsapp/decorators/whatsapp-message.decorator';
 import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interface';
 import { withSign, withSignRegex } from '@app/whatsapp/supports/flag.support';
 import { getMessageCaption } from '@app/whatsapp/supports/message.support';
 import type { WAMessage, WASocket } from '@whiskeysockets/baileys';
 import { injectRandomHiddenText } from 'src/supports/str.support';
+import { extractUrls } from 'src/supports/url.support';
 
 @WhatsappMessage({
   flags: [withSignRegex('ig .*'), withSign('ig')],
 })
 export class InstagramDownloaderAction extends WhatsappMessageAction {
+  constructor(private readonly mediaSaver: MediaSaver) {
+    super();
+  }
   async execute(socket: WASocket, message: WAMessage) {
     this.reactToProcessing(socket, message);
     const text = getMessageCaption(message.message!);
 
-    const urls: URL[] = [];
-    text.split(/\s+/).map((url) => {
-      try {
-        urls.push(new URL(url));
-      } catch (error) {}
-    });
+    const urls: URL[] = extractUrls(text);
     const jid = message.key.remoteJid!;
 
     if (urls.length === 0) {
@@ -36,7 +36,9 @@ export class InstagramDownloaderAction extends WhatsappMessageAction {
 
     await Promise.all(
       urls.map(async (url) => {
-        const { success, data } = await this.download(url.toString());
+        const { success, data } = await this.mediaSaver.instagramDownloader(
+          url.toString(),
+        );
         if (success) {
           for (const { thumb, url, is_video } of data) {
             if (is_video) {
@@ -66,14 +68,4 @@ export class InstagramDownloaderAction extends WhatsappMessageAction {
     );
     this.reactToDone(socket, message);
   }
-  protected download = async (link: string) => {
-    const resp = await fetch(
-      'https://mediasaver.binsarjr.com/services/igdownloader?url=' + link,
-    );
-    const json: {
-      success: boolean;
-      data: { thumb: string; url: string; is_video: boolean }[];
-    } = await resp.json();
-    return json;
-  };
 }

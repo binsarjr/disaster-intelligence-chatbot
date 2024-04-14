@@ -42,6 +42,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/whatsapp-action/tsconfig.lib.json"
       }
+    },
+    "external-module": {
+      "type": "library",
+      "root": "libs/external-module",
+      "entryFile": "index",
+      "sourceRoot": "libs/external-module/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/external-module/tsconfig.lib.json"
+      }
     }
   }
 }
