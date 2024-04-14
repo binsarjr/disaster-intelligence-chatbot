@@ -3,9 +3,15 @@ import {
   WhatsappMessageActionMetadataKey,
 } from '@app/whatsapp/constants';
 import type { WhatsappMessageActionOptions } from '@app/whatsapp/decorators/whatsapp-message.decorator';
-import type { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interface';
+import {
+  Emoji,
+  type WhatsappMessageAction,
+} from '@app/whatsapp/interfaces/whatsapp.interface';
 import { patternsAndTextIsMatch } from '@app/whatsapp/supports/flag.support';
-import { getMessageCaption } from '@app/whatsapp/supports/message.support';
+import {
+  getMessageCaption,
+  react,
+} from '@app/whatsapp/supports/message.support';
 import {
   DiscoveryService,
   type DiscoveredClassWithMeta,
@@ -57,6 +63,15 @@ export class WhatsappMessageService {
             socket.user.id,
             {
               text: error.message,
+            },
+            { quoted: message },
+          );
+
+          await react(socket, Emoji.Failed, message);
+          await socket.sendMessage(
+            message.key.remoteJid!,
+            {
+              text: 'Error occured, please try again',
             },
             { quoted: message },
           );

@@ -65,7 +65,10 @@ export class MediaSaver {
   /**
    * TikTok Downloader from bravedown
    */
-  async bravedown(url: string, identifier: 'tiktok-downloader') {
+  async bravedown(
+    url: string,
+    identifier: 'tiktok-downloader' | 'twitter-video-downloader',
+  ) {
     const response = await fetch(
       this.baseUrl + `bravedown/${identifier}?url=` + url,
     );
@@ -76,7 +79,7 @@ export class MediaSaver {
         source: z.string(),
         title: z.string(),
         thumbnail: z.string(),
-        duration: z.string(),
+        duration: z.string().optional(),
         links: z.array(
           z.object({
             url: z.string(),
