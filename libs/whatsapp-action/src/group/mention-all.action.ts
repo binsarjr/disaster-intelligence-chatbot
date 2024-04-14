@@ -6,6 +6,7 @@ import { getJid } from '@app/whatsapp/supports/message.support';
 import type { WAMessage, WASocket } from '@whiskeysockets/baileys';
 
 import { isJidGroup } from '@whiskeysockets/baileys';
+import { injectRandomHiddenText } from 'src/supports/str.support';
 
 @WhatsappMessage({
   flags: [withSign('tagall'), withSignRegex('tagall .*')],
@@ -27,7 +28,7 @@ export class MentionAllAction extends WhatsappMessageAction {
     await socket.sendMessage(
       getJid(message),
       {
-        text: 'PING!!',
+        text: injectRandomHiddenText('PING!!'),
         mentions: metadata.participants.map((participant) => participant.id),
       },
       { quoted: message },

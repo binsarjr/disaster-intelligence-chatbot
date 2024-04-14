@@ -1,11 +1,12 @@
 import { WhatsappMessage } from '@app/whatsapp/decorators/whatsapp-message.decorator';
 import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interface';
-import { withSignRegex } from '@app/whatsapp/supports/flag.support';
+import { withSign, withSignRegex } from '@app/whatsapp/supports/flag.support';
 import { getMessageCaption } from '@app/whatsapp/supports/message.support';
 import type { WAMessage, WASocket } from '@whiskeysockets/baileys';
+import { injectRandomHiddenText } from 'src/supports/str.support';
 
 @WhatsappMessage({
-  flags: [withSignRegex('ig .*')],
+  flags: [withSignRegex('ig .*'), withSign('ig')],
 })
 export class InstagramDownloaderAction extends WhatsappMessageAction {
   async execute(socket: WASocket, message: WAMessage) {
@@ -24,7 +25,7 @@ export class InstagramDownloaderAction extends WhatsappMessageAction {
       socket.sendMessage(
         jid,
         {
-          text: 'Please provide a valid Instagram URL',
+          text: injectRandomHiddenText('Please provide a valid Instagram URL'),
         },
         { quoted: message },
       );

@@ -7,6 +7,7 @@ import {
   type WASocket,
 } from '@whiskeysockets/baileys';
 import { randomInteger } from 'src/supports/number.support';
+import { injectRandomHiddenText } from 'src/supports/str.support';
 
 @Injectable()
 export class RejectCallAction {
@@ -20,7 +21,7 @@ export class RejectCallAction {
 
       if (call.status == 'reject' && isJidUser(call.chatId)) {
         await socket.sendMessage(call.chatId, {
-          text: 'Please do not call me',
+          text: injectRandomHiddenText('Jangan telpon nomor bot ini'),
         });
       }
     }

@@ -3,6 +3,7 @@ import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interfa
 import { withSignRegex } from '@app/whatsapp/supports/flag.support';
 import { getMessageCaption } from '@app/whatsapp/supports/message.support';
 import type { WAMessage, WASocket } from '@whiskeysockets/baileys';
+import { injectRandomHiddenText } from 'src/supports/str.support';
 
 @WhatsappMessage({
   flags: [withSignRegex('tt .*')],
@@ -24,7 +25,7 @@ export class TiktokDownloaderAction extends WhatsappMessageAction {
       await socket.sendMessage(
         jid,
         {
-          text: 'Please provide a valid TikTok URL',
+          text: injectRandomHiddenText('Please provide a valid TikTok URL'),
         },
         { quoted: message },
       );

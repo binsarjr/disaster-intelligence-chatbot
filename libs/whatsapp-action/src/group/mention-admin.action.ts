@@ -5,6 +5,7 @@ import { withSign, withSignRegex } from '@app/whatsapp/supports/flag.support';
 import { getJid } from '@app/whatsapp/supports/message.support';
 import type { WAMessage, WASocket } from '@whiskeysockets/baileys';
 import { isJidGroup } from '@whiskeysockets/baileys';
+import { injectRandomHiddenText } from 'src/supports/str.support';
 
 @WhatsappMessage({
   flags: [
@@ -31,7 +32,7 @@ export class MentionAdminAction extends WhatsappMessageAction {
     await socket.sendMessage(
       getJid(message),
       {
-        text: 'PING!!',
+        text: injectRandomHiddenText('PING!!'),
         mentions: metadata.participants
           .filter((participant) => !!participant.admin)
           .map((participant) => participant.id),
