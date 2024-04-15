@@ -19,6 +19,12 @@ model Device {
   AuthSessionStores AuthSessionStore[]
 }
 
+model AnonymousChat {
+  id        String  @id
+  partnerId String?
+  status    String
+}
+
 model AuthSessionStore {
   id       String @id @default(cuid())
   type     String

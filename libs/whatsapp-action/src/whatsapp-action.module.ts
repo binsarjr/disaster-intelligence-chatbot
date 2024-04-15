@@ -1,4 +1,5 @@
 import { RejectCallAction } from '@app/whatsapp-action/always-executed/spam/reject-call.action';
+import { AnonymousChatModule } from '@app/whatsapp-action/anonymous-chat/anonymous-chat.module';
 import { InstagramAudioDownloaderAction } from '@app/whatsapp-action/downloader/instagram-audio-downloader.action';
 import { InstagramDownloaderAction } from '@app/whatsapp-action/downloader/instagram-downloader.action';
 import { TiktokAudioDownloaderAction } from '@app/whatsapp-action/downloader/tiktok-audio-downloader.action';
@@ -20,6 +21,7 @@ import { ScanQrCodeAction } from '@app/whatsapp-action/scan-qr-code.action';
 import { Module } from '@nestjs/common';
 
 @Module({
+  imports: [AnonymousChatModule],
   providers: [
     ScanQrCodeAction,
     PingAction,
