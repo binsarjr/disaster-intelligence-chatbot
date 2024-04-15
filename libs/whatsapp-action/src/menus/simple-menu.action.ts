@@ -25,6 +25,8 @@ Menu:
 - *${withSign('ttaudio')} <link>* - Download audio from TikTok
 - *${withSign('ig')} <link>* - Download video from Instagram
 - *${withSign('igaudio')} <link>* - Download audio from Instagram
+- *${withSign('yt')} <link>* - Download video from Youtube
+- *${withSign('ytaudio')} <link>* - Download audio from Youtube
 - *${withSign('hd')}* - convert image to HD
 - *${withSign('s')}* - image to sticker
 - *${withSign('stiker')}* - image to sticker 
