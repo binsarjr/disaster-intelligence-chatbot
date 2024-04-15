@@ -112,9 +112,29 @@ export class MediaSaver {
     return schema.parse(data);
   }
 
-  async ytmate(url: string) {
-    const response = await fetch(this.baseUrl + 'yt2mate?url=' + url);
+  async ytmate(url: string, identifier: 'audio' | 'video') {
+    const response = await fetch(
+      this.baseUrl + `yt2mate/${identifier}?url=` + url,
+    );
+    const data = await response.json();
 
-    return response.json();
+    const schema = z.object({
+      message: z.string(),
+      success: z.boolean(),
+      data: z.object({
+        title: z.string(),
+        duration: z.string(),
+        thumbnail: z.string(),
+        links: z.array(
+          z.object({
+            link: z.string(),
+            type: z.string(),
+            quality: z.string(),
+          }),
+        ),
+      }),
+    });
+
+    return schema.parse(data);
   }
 }

@@ -5,6 +5,7 @@ import { InstagramDownloaderAction } from '@app/whatsapp-action/downloader/insta
 import { TiktokAudioDownloaderAction } from '@app/whatsapp-action/downloader/tiktok-audio-downloader.action';
 import { TiktokDownloaderAction } from '@app/whatsapp-action/downloader/tiktok-downloader.action';
 import { XDownloaderAction } from '@app/whatsapp-action/downloader/x-downloader.action';
+import { YoutubeAudioDownloaderAction } from '@app/whatsapp-action/downloader/youtube-audio-downloader.action';
 import { AddMemberAction } from '@app/whatsapp-action/group/add-member.action';
 import { DemoteMemberAction } from '@app/whatsapp-action/group/demote-member.action';
 import { KickMemberAction } from '@app/whatsapp-action/group/kick-member.action';
@@ -44,6 +45,7 @@ import { Module } from '@nestjs/common';
     TiktokDownloaderAction,
     TiktokAudioDownloaderAction,
     XDownloaderAction,
+    YoutubeAudioDownloaderAction,
 
     RejectCallAction,
 
