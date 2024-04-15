@@ -36,11 +36,10 @@ export class DemoteMemberAction extends WhatsappMessageAction {
     );
     if (!me.admin) return false;
 
-    const fromJid = jidNormalizedUser(getJid(message));
     return !!metadata.participants.find(
       (participant) =>
-        participant.admin && fromJid === jidNormalizedUser(participant.id),
-    );
+        message.key.participant === jidNormalizedUser(participant.id),
+    )?.admin;
   }
 
   async execute(socket: WASocket, message: WAMessage) {
