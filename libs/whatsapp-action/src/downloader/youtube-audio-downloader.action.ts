@@ -42,6 +42,8 @@ export class YoutubeAudioDownloaderAction extends WhatsappMessageAction {
           (format: ytdl.videoFormat) => format.hasAudio === true,
         );
 
+        console.log(formats);
+
         await socket.sendMessage(
           jid,
           {
