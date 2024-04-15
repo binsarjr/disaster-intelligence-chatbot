@@ -64,7 +64,9 @@ export class AddMemberAction extends WhatsappMessageAction {
     try {
       await socket.groupParticipantsUpdate(
         getJid(message),
-        mentionedJid.filter((jid) => jid != jidNormalizedUser(socket.user?.id)),
+        mentionedJid.filter(
+          (jid) => jidNormalizedUser(jid) != jidNormalizedUser(socket.user?.id),
+        ),
         'add',
       );
       await this.reactToDone(socket, message);
