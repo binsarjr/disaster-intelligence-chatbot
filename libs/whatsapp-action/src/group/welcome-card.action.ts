@@ -4,44 +4,64 @@ import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interfa
 import { getJid } from '@app/whatsapp/supports/message.support';
 import {
   isJidGroup,
+  WAMessageStubType,
   type WAMessage,
   type WASocket,
 } from '@whiskeysockets/baileys';
 import fetch from 'node-fetch';
 
-@WhatsappMessage({
-  flags: ['welcome'],
-})
+@WhatsappMessage()
 export class WelcomeCardAction extends WhatsappMessageAction {
   @IsEligible()
   async onlyGroup(socket: WASocket, message: WAMessage) {
     return isJidGroup(getJid(message));
   }
 
+  @IsEligible()
+  async isNewMember(socket: WASocket, message: WAMessage) {
+    if (!Object.hasOwn(message, 'messageStubParameters')) return false;
+
+    return message.messageStubType === WAMessageStubType.GROUP_PARTICIPANT_ADD;
+  }
+
   async execute(socket: WASocket, message: WAMessage) {
-    this.reactToProcessing(socket, message);
+    const new_participants = message.messageStubParameters;
 
-    console.log('getting profile picture');
-    const pp = await socket.profilePictureUrl(message.key.participant);
-    console.log('getting profile picture done');
+    let caption = '';
+    let jidAvatar = '';
 
-    console.log('getting group metadata');
-    const groupMetadata = await socket.groupMetadata(getJid(message));
-    console.log('getting group metadata done');
+    if (new_participants.length === 1) {
+      caption =
+        '@' +
+        message.messageStubParameters![0]?.split('@')[0] +
+        ' Silahkan intro terdahulu! 🤨';
+      jidAvatar = message.messageStubParameters![0];
+    } else {
+      caption = '@newmembers silahkan intro terdahulu! 🤨';
+      jidAvatar = getJid(message);
+    }
 
-    await socket.sendMessage(
-      getJid(message),
-      {
-        image: await this.loadImage({
-          background: 'https://i.ibb.co/dkXJ7rw/1349198-1.jpg',
-          title: 'Welcome to this server',
-          groupName: groupMetadata.subject,
-          userAvatar: pp,
-          totalMember: groupMetadata.participants.length,
-        }),
-      },
-      { quoted: message },
-    );
+    const [pp, groupMetadata] = await Promise.all([
+      socket
+        .profilePictureUrl(jidAvatar)
+        .catch(
+          () =>
+            'https://i.ibb.co/vXzDh4y/gradient-lo-fi-illustrations-52683-84144.jpg',
+        ),
+      socket.groupMetadata(getJid(message)),
+    ]);
+
+    await socket.sendMessage(getJid(message), {
+      image: await this.loadImage({
+        background: 'https://i.ibb.co/dkXJ7rw/1349198-1.jpg',
+        title: 'Welcome to',
+        groupName: groupMetadata.subject,
+        userAvatar: pp,
+        totalMember: groupMetadata.participants.length,
+      }),
+      caption,
+      mentions: new_participants,
+    });
   }
 
   async loadImage({
@@ -63,9 +83,7 @@ export class WelcomeCardAction extends WhatsappMessageAction {
     url.searchParams.append('text2', groupName);
     url.searchParams.append('text3', `Member ${totalMember}`);
     url.searchParams.append('avatar', userAvatar);
-    console.log('sebelum buff');
-    const buffer: Buffer = await fetch(url).then((res) => res.arrayBuffer());
-    console.log('setelah buff');
-    return buffer;
+    const buffer = await fetch(url).then((res) => res.arrayBuffer());
+    return Buffer.from(buffer);
   }
 }
