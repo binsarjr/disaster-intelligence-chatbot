@@ -1,31 +1,43 @@
+import { IsEligible } from '@app/whatsapp/decorators/is-eligible.decorator';
 import { WhatsappMessage } from '@app/whatsapp/decorators/whatsapp-message.decorator';
 import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interface';
 import { getJid } from '@app/whatsapp/supports/message.support';
-import { type WAMessage, type WASocket } from '@whiskeysockets/baileys';
+import {
+  isJidGroup,
+  type WAMessage,
+  type WASocket,
+} from '@whiskeysockets/baileys';
 import fetch from 'node-fetch';
 
 @WhatsappMessage({
   flags: ['welcome'],
 })
 export class WelcomeCardAction extends WhatsappMessageAction {
-  // @IsEligible()
-  // async onlyGroup(socket: WASocket, message: WAMessage) {
-  //   return isJidGroup(getJid(message));
-  // }
+  @IsEligible()
+  async onlyGroup(socket: WASocket, message: WAMessage) {
+    return isJidGroup(getJid(message));
+  }
 
   async execute(socket: WASocket, message: WAMessage) {
     this.reactToProcessing(socket, message);
+
+    console.log('getting profile picture');
+    const pp = await socket.profilePictureUrl(message.key.participant);
+    console.log('getting profile picture done');
+
+    console.log('getting group metadata');
+    const groupMetadata = await socket.groupMetadata(getJid(message));
+    console.log('getting group metadata done');
+
     await socket.sendMessage(
       getJid(message),
       {
         image: await this.loadImage({
           background: 'https://i.ibb.co/dkXJ7rw/1349198-1.jpg',
           title: 'Welcome to this server',
-          groupName: message.key.remoteJid!,
-          userAvatar: await socket.profilePictureUrl(getJid(message), 'image'),
-          totalMember: await socket
-            .groupMetadata(getJid(message))
-            .then((m) => m.participants.length),
+          groupName: groupMetadata.subject,
+          userAvatar: pp,
+          totalMember: groupMetadata.participants.length,
         }),
       },
       { quoted: message },
@@ -52,7 +64,7 @@ export class WelcomeCardAction extends WhatsappMessageAction {
     url.searchParams.append('text3', `Member ${totalMember}`);
     url.searchParams.append('avatar', userAvatar);
     console.log('sebelum buff');
-    const buffer: Buffer = await fetch(url).then((res) => res.buffer());
+    const buffer: Buffer = await fetch(url).then((res) => res.arrayBuffer());
     console.log('setelah buff');
     return buffer;
   }
