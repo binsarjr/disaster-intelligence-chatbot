@@ -19,12 +19,6 @@ model Device {
   AuthSessionStores AuthSessionStore[]
 }
 
-model AnonymousChat {
-  id        String  @id
-  partnerId String?
-  status    String
-}
-
 model AuthSessionStore {
   id       String @id @default(cuid())
   type     String
@@ -34,4 +28,23 @@ model AuthSessionStore {
 
   @@unique([deviceId, type], map: "unique_type_per_device_id")
   @@index([deviceId])
+}
+
+model ChatMode {
+  jid  String @id
+  mode String
+}
+
+model AnonymousChat {
+  id        String  @id
+  partnerId String?
+  status    String
+}
+
+model ConfessChat {
+  jid                  String @id
+  receiverJid          String
+  senderName           String
+  message              String
+  lastMessageTimestamp String
 }
