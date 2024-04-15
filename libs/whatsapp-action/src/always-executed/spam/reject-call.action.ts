@@ -14,7 +14,7 @@ export class RejectCallAction {
   @WAEvent('call')
   async onCall(socket: WASocket, calls: WACallEvent[]) {
     for (const call of calls) {
-      if (call.status == 'ringing') {
+      if (call.status == 'offer') {
         await delay(randomInteger(1000, 2000));
         await socket.rejectCall(call.id, call.chatId);
       }
