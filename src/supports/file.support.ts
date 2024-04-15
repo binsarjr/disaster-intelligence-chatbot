@@ -1,4 +1,4 @@
-import ffmpeg from 'fluent-ffmpeg';
+import * as ffmpeg from 'fluent-ffmpeg';
 import fetch from 'node-fetch';
 import { PassThrough } from 'stream';
 
