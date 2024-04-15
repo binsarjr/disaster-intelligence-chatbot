@@ -46,9 +46,9 @@ export class YoutubeAudioDownloaderAction extends WhatsappMessageAction {
           jid,
           {
             audio: {
-              url: formats[0].url,
+              url: formats[1].url,
             },
-            mimetype: formats[0].mimeType.split(';')[0],
+            mimetype: formats[1].mimeType.split(';')[0],
           },
           { quoted: message },
         );
