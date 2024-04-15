@@ -6,7 +6,6 @@ import { getMessageCaption } from '@app/whatsapp/supports/message.support';
 import type { WAMessage, WASocket } from '@whiskeysockets/baileys';
 import { injectRandomHiddenText } from 'src/supports/str.support';
 import { extractUrls } from 'src/supports/url.support';
-import * as ytdl from 'ytdl-core';
 
 @WhatsappMessage({
   flags: [withSignRegex('ytaudio .*'), withSign('ytaudio')],
@@ -37,23 +36,23 @@ export class YoutubeAudioDownloaderAction extends WhatsappMessageAction {
 
     await Promise.all(
       urls.map(async (url) => {
-        const info = await ytdl.getInfo(url.toString());
-        const formats = info.formats.filter(
-          (format: ytdl.videoFormat) =>
-            format.container === 'mp4' &&
-            new RegExp(/720|480|360|240|270|144/).test(format.qualityLabel) &&
-            format.hasAudio === true,
+        const { data, success } = await this.mediaSaver.ytmate(
+          url.toString(),
+          'audio',
         );
 
-        await socket.sendMessage(
-          jid,
-          {
-            audio: {
-              url: formats[0].url,
+        if (success && data) {
+          await socket.sendMessage(
+            jid,
+            {
+              audio: {
+                url: data.links[0].link,
+              },
+              mimetype: 'audio/mp4',
             },
-          },
-          { quoted: message },
-        );
+            { quoted: message },
+          );
+        }
       }),
     );
     this.reactToDone(socket, message);
