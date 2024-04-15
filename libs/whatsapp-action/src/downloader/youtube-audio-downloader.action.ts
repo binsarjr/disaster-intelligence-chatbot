@@ -39,18 +39,19 @@ export class YoutubeAudioDownloaderAction extends WhatsappMessageAction {
       urls.map(async (url) => {
         const info = await ytdl.getInfo(url.toString());
         const formats = info.formats.filter(
-          (format: ytdl.videoFormat) => format.hasAudio === true,
+          (format: ytdl.videoFormat) =>
+            format.hasAudio &&
+            format.container == 'mp4' &&
+            format.mimeType.includes('audio'),
         );
-
-        console.log(formats);
 
         await socket.sendMessage(
           jid,
           {
             audio: {
-              url: formats[1].url,
+              url: formats[0].url,
             },
-            mimetype: formats[1].mimeType.split(';')[0],
+            mimetype: formats[0].mimeType.split(';')[0],
           },
           { quoted: message },
         );
