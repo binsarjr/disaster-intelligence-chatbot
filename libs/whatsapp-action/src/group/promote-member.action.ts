@@ -60,12 +60,14 @@ export class PromoteMemberAction extends WhatsappMessageAction {
       }
     });
 
+    mentionedJid = mentionedJid.filter(
+      (jid) => jidNormalizedUser(jid) != jidNormalizedUser(socket.user?.id),
+    );
+
     try {
       await socket.groupParticipantsUpdate(
         getJid(message),
-        mentionedJid.filter(
-          (jid) => jidNormalizedUser(jid) != jidNormalizedUser(socket.user?.id),
-        ),
+        mentionedJid,
         'promote',
       );
       await this.reactToDone(socket, message);
