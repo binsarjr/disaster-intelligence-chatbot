@@ -35,6 +35,10 @@ Menu:
 - *${withSign('ping')}* - ping bot
 - *${withSign('menu')}* - Show this menu
 
+Games Truth Or Dare:
+- *${withSign('dare')}* - Dare Game
+- *${withSign('truth')}* - Truth Game
+
 ${ReadMoreUnicode}
 > Timestamp: ${new Date().toLocaleString()}
 
