@@ -17,11 +17,6 @@ import { injectRandomHiddenText } from 'src/supports/str.support';
 })
 export class MentionMemberAction extends WhatsappMessageAction {
   @IsEligible()
-  async onlyMe(socket: WASocket, message: WAMessage) {
-    return !!message.key.fromMe;
-  }
-
-  @IsEligible()
   async onlyGroup(socket: WASocket, message: WAMessage) {
     return isJidGroup(getJid(message));
   }
