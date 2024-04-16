@@ -34,7 +34,7 @@ Menu:
 - *${withSign('toimg')}* - sticker to image
 - *${withSign('ping')}* - ping bot
 - *${withSign('menu')}* - Show this menu
-
+${ReadMoreUnicode}
 Games Truth Or Dare:
 - *${withSign('dare')}* - Dare Game
 - *${withSign('truth')}* - Truth Game
