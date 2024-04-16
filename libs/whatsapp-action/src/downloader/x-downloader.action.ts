@@ -9,7 +9,12 @@ import { injectRandomHiddenText } from 'src/supports/str.support';
 import { extractUrls } from 'src/supports/url.support';
 
 @WhatsappMessage({
-  flags: [withSignRegex('x .*'), withSign('x')],
+  flags: [
+    withSignRegex('x .*'),
+    withSign('x'),
+    withSignRegex('twitter .*'),
+    withSign('twitter'),
+  ],
 })
 export class XDownloaderAction extends WhatsappMessageAction {
   constructor(private readonly mediaSaver: MediaSaver) {
