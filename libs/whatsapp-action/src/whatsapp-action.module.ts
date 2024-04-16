@@ -7,6 +7,7 @@ import { TiktokDownloaderAction } from '@app/whatsapp-action/downloader/tiktok-d
 import { XDownloaderAction } from '@app/whatsapp-action/downloader/x-downloader.action';
 import { YoutubeAudioDownloaderAction } from '@app/whatsapp-action/downloader/youtube-audio-downloader.action';
 import { YoutubeDownloaderAction } from '@app/whatsapp-action/downloader/youtube-downloader.action';
+import { TruthOrDareModule } from '@app/whatsapp-action/games/truth-or-dare/truth-or-dare.module';
 import { AddMemberAction } from '@app/whatsapp-action/group/add-member.action';
 import { DemoteMemberAction } from '@app/whatsapp-action/group/demote-member.action';
 import { KickMemberAction } from '@app/whatsapp-action/group/kick-member.action';
@@ -24,7 +25,7 @@ import { ScanQrCodeAction } from '@app/whatsapp-action/scan-qr-code.action';
 import { Module } from '@nestjs/common';
 
 @Module({
-  imports: [AnonymousChatModule],
+  imports: [AnonymousChatModule, TruthOrDareModule],
   providers: [
     ScanQrCodeAction,
     PingAction,
