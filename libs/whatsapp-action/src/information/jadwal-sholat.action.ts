@@ -61,6 +61,10 @@ Jarak: ${results.parameter.jarak}
             sourceUrl:
               'https://jadwalsholat.org/jadwal-sholat/monthly.php?id=' +
               cities[0].cityId,
+            thumbnailUrl:
+              'https://radarcirebon.id/wp-content/uploads/2023/03/0bf33c70e52a5bf3d40aa6270cb8ddd0-6-e1677175957230-1-1.png',
+            mediaType: 1,
+            renderLargerThumbnail: true,
           },
         },
       },

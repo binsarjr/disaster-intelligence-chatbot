@@ -60,6 +60,7 @@ export class InstagramAudioDownloaderAction extends WhatsappMessageAction {
                   mediaType: 2,
                   mediaUrl: data.url,
                   thumbnailUrl: data.url,
+                  renderLargerThumbnail: true,
                 },
               },
             },

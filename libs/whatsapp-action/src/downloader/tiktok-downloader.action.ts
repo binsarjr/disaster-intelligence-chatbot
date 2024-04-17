@@ -88,6 +88,7 @@ ${totalVideo > 0 ? 'Total Video: ' + totalVideo : ''}
                 mediaType: 2,
                 mediaUrl: video,
                 thumbnailUrl: images[0],
+                renderLargerThumbnail: true,
               },
             },
           },

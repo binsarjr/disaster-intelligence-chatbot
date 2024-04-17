@@ -72,6 +72,7 @@ Title: ${data.title}
                 mediaType: 2,
                 mediaUrl: links[links.length - 1].url,
                 thumbnailUrl: data.thumbnail,
+                renderLargerThumbnail: true,
               },
             },
           },
