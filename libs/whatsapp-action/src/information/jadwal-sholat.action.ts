@@ -1,4 +1,3 @@
-import { IslamicFinder } from '@app/external-module/scraper/islamicfinder';
 import { Jadwalsholat } from '@app/external-module/scraper/jadwalsholat';
 import { ReadMoreUnicode } from '@app/whatsapp/constants';
 import { WhatsappMessage } from '@app/whatsapp/decorators/whatsapp-message.decorator';
@@ -12,9 +11,6 @@ import { customSplit } from 'src/supports/str.support';
   flags: [withSign('sholat'), withSignRegex('sholat .*')],
 })
 export class JadwalSholatAction extends WhatsappMessageAction {
-  constructor(private readonly islamicFinder: IslamicFinder) {
-    super();
-  }
   async execute(socket: WASocket, message: WAMessage) {
     this.reactToProcessing(socket, message);
 
@@ -28,9 +24,13 @@ export class JadwalSholatAction extends WhatsappMessageAction {
 
     const cities = await jadwalSholat.search(kota);
     if (cities.length == 0) {
-      await socket.sendMessage(message.key.remoteJid!, {
-        text: `Kota tidak tersedia. gunakan nama kota dengan benar`,
-      });
+      await socket.sendMessage(
+        message.key.remoteJid!,
+        {
+          text: `Kota tidak tersedia. gunakan nama kota dengan benar`,
+        },
+        { quoted: message },
+      );
       this.reactToDone(socket, message);
       return;
     }
@@ -41,7 +41,7 @@ export class JadwalSholatAction extends WhatsappMessageAction {
       message.key.remoteJid!,
       {
         text: `
-Jadwal Sholat *${kota}*:
+Jadwal Sholat *${cities[0].cityName}*:
 
 ${Object.entries(results.hariini.Waktu)
   .map(([key, value]) => `*${key}*: ${value}`)

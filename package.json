@@ -26,7 +26,6 @@
     "sharp"
   ],
   "dependencies": {
-    "@bochilteam/scraper-religions": "^1.0.2",
     "@golevelup/nestjs-discovery": "^4.0.1",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
