@@ -166,6 +166,10 @@ export const downloadQuotedMessageMedia = async (
   return buffer;
 };
 
+export const getMessageTimestamp = (message: WAMessage): number => {
+  return +message.messageTimestamp * 1000;
+};
+
 // export const getMessage = (message: WAMessage): WAMessage => {
 //   switch (getContentType(message.message)) {
 //     case 'viewOnceMessage':

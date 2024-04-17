@@ -25,7 +25,11 @@ import { ScanQrCodeAction } from '@app/whatsapp-action/scan-qr-code.action';
 import { Module } from '@nestjs/common';
 
 @Module({
-  imports: [AnonymousChatModule, TruthOrDareModule],
+  imports: [
+    AnonymousChatModule,
+    TruthOrDareModule,
+    // ConfessChatModule
+  ],
   providers: [
     ScanQrCodeAction,
     PingAction,

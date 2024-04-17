@@ -36,3 +36,40 @@ export const injectRandomHiddenText = (text: string) => {
 
   return stego.encodeText(text, randomString(10));
 };
+
+export function customSplit(str: string, separator: string, maxParts: number) {
+  // Inisialisasi array hasil
+  let result = [];
+
+  // Jika string kosong, kembalikan array kosong
+  if (str.length === 0) {
+    return result;
+  }
+
+  // Inisialisasi indeks awal potongan
+  let startIndex = 0;
+
+  // Iterasi melalui string untuk mencari separator dan membaginya
+  for (let i = 0; i < str.length; i++) {
+    // Jika sudah mencapai jumlah maksimal potongan
+    if (result.length === maxParts - 1) {
+      break;
+    }
+
+    // Jika karakter saat ini adalah separator
+    if (str[i] === separator) {
+      // Potong string dari startIndex hingga i dan tambahkan ke array
+      result.push(str.substring(startIndex, i));
+      // Update indeks awal potongan
+      startIndex = i + 1;
+    }
+  }
+
+  // Jika ada sisanya setelah iterasi
+  if (startIndex < str.length) {
+    // Tambahkan sisanya ke array
+    result.push(str.substring(startIndex));
+  }
+
+  return result;
+}

@@ -41,9 +41,9 @@ model AnonymousChat {
 }
 
 model ConfessChat {
-  jid                  String @id
+  jid                  String    @id
   receiverJid          String
-  senderName           String
+  senderName           String?
   message              String
-  lastMessageTimestamp String
+  lastMessageTimestamp DateTime?
 }

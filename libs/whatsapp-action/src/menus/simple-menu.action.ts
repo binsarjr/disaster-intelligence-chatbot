@@ -35,7 +35,7 @@ Menu:
 - *${withSign('ping')}* - ping bot
 - *${withSign('menu')}* - Show this menu
 ${ReadMoreUnicode}
-Games Truth Or Dare:
+Game Truth Or Dare:
 - *${withSign('dare')}* - Dare Game
 - *${withSign('truth')}* - Truth Game
 

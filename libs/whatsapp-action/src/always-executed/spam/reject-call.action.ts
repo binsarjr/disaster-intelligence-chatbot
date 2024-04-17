@@ -1,12 +1,10 @@
 import { WAEvent } from '@app/whatsapp/decorators/wa-event.decorator';
 import { Injectable } from '@nestjs/common';
 import {
-  delay,
   isJidUser,
   type WACallEvent,
   type WASocket,
 } from '@whiskeysockets/baileys';
-import { randomInteger } from 'src/supports/number.support';
 import { injectRandomHiddenText } from 'src/supports/str.support';
 
 @Injectable()
@@ -15,7 +13,6 @@ export class RejectCallAction {
   async onCall(socket: WASocket, calls: WACallEvent[]) {
     for (const call of calls) {
       if (call.status == 'offer') {
-        await delay(randomInteger(1000, 2000));
         await socket.rejectCall(call.id, call.chatId);
       }
 
