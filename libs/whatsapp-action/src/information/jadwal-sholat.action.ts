@@ -53,8 +53,15 @@ ${results.parameter.koordinat}
 Arah: ${results.parameter.arah}
 Jarak: ${results.parameter.jarak}
 
-
       `.trim(),
+        contextInfo: {
+          externalAdReply: {
+            title: 'Jadwal Sholat Kota ' + cities[0].cityName,
+            sourceUrl:
+              'https://jadwalsholat.org/jadwal-sholat/monthly.php?id=' +
+              cities[0].cityId,
+          },
+        },
       },
       { quoted: message },
     );

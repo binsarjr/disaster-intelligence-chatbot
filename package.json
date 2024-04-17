@@ -37,6 +37,7 @@
     "form-data": "^4.0.0",
     "got": "^11",
     "inquirer": "^8.0.0",
+    "jimp": "^0.22.12",
     "libphonenumber-js": "^1.10.60",
     "link-preview-js": "^3.0.5",
     "pino": "^8.20.0",
