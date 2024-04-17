@@ -1,9 +1,10 @@
 import { IslamicFinder } from '@app/external-module/scraper/islamicfinder';
+import { Jadwalsholat } from '@app/external-module/scraper/jadwalsholat';
+import { ReadMoreUnicode } from '@app/whatsapp/constants';
 import { WhatsappMessage } from '@app/whatsapp/decorators/whatsapp-message.decorator';
 import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interface';
 import { withSign, withSignRegex } from '@app/whatsapp/supports/flag.support';
 import { getMessageCaption } from '@app/whatsapp/supports/message.support';
-import { jadwalsholat } from '@bochilteam/scraper-religions';
 import type { WAMessage, WASocket } from '@whiskeysockets/baileys';
 import { customSplit } from 'src/supports/str.support';
 
@@ -23,33 +24,40 @@ export class JadwalSholatAction extends WhatsappMessageAction {
       2,
     );
 
-    try {
-      const results = await jadwalsholat(kota);
+    const jadwalSholat = new Jadwalsholat();
 
+    const cities = await jadwalSholat.search(kota);
+    if (cities.length == 0) {
       await socket.sendMessage(message.key.remoteJid!, {
+        text: `Kota tidak tersedia. gunakan nama kota dengan benar`,
+      });
+      this.reactToDone(socket, message);
+      return;
+    }
+
+    const results = await jadwalSholat.schedule(cities[0].cityId);
+
+    await socket.sendMessage(
+      message.key.remoteJid!,
+      {
         text: `
 Jadwal Sholat *${kota}*:
 
-${Object.entries(results.today)
-  .map(([key, value]) => `*Sholat ${key}*: ${value}`)
+${Object.entries(results.hariini.Waktu)
+  .map(([key, value]) => `*${key}*: ${value}`)
   .join('\n')}
+${ReadMoreUnicode}
+Koordinat untuk kota ini:
+${results.parameter.koordinat}
+
+Arah: ${results.parameter.arah}
+Jarak: ${results.parameter.jarak}
+
 
       `.trim(),
-      });
-      this.reactToDone(socket, message);
-    } catch (error) {
-      const text = error.message;
-      if (text.includes('Did you mean')) {
-        await socket.sendMessage(
-          message.key.remoteJid!,
-          {
-            text: `${text}`,
-          },
-          { quoted: message },
-        );
-      }
-      console.error(error);
-      this.reactToFailed(socket, message);
-    }
+      },
+      { quoted: message },
+    );
+    this.reactToDone(socket, message);
   }
 }
