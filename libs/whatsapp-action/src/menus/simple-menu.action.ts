@@ -21,12 +21,7 @@ export class SimpleMenuAction extends WhatsappMessageAction {
   menu() {
     return `
 Menu:
-- *${withSign('tt')} <link>* - Download video from TikTok
-- *${withSign('ttaudio')} <link>* - Download audio from TikTok
-- *${withSign('ig')} <link>* - Download video from Instagram
-- *${withSign('igaudio')} <link>* - Download audio from Instagram
-- *${withSign('yt')} <link>* - Download video from Youtube
-- *${withSign('ytaudio')} <link>* - Download audio from Youtube
+- *${withSign('sholat <kota>')}* - Jadwal Sholat
 - *${withSign('hd')}* - convert image to HD
 - *${withSign('s')}* - image to sticker
 - *${withSign('stiker')}* - image to sticker 
@@ -34,6 +29,17 @@ Menu:
 - *${withSign('toimg')}* - sticker to image
 - *${withSign('ping')}* - ping bot
 - *${withSign('menu')}* - Show this menu
+
+
+${ReadMoreUnicode}
+Downloader:
+- *${withSign('tt')} <link>* - Download video from TikTok
+- *${withSign('ttaudio')} <link>* - Download audio from TikTok
+- *${withSign('ig')} <link>* - Download video from Instagram
+- *${withSign('igaudio')} <link>* - Download audio from Instagram
+- *${withSign('yt')} <link>* - Download video from Youtube
+- *${withSign('ytaudio')} <link>* - Download audio from Youtube
+
 ${ReadMoreUnicode}
 Game Truth Or Dare:
 - *${withSign('dare')}* - Dare Game
