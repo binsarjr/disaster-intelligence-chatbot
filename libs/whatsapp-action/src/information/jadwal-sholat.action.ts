@@ -39,5 +39,7 @@ ${jadwa}
 
       `.trim(),
     });
+
+    this.reactToDone(socket, message);
   }
 }
