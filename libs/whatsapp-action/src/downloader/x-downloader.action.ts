@@ -57,19 +57,22 @@ export class XDownloaderAction extends WhatsappMessageAction {
             video: {
               url: links[links.length - 1].url,
             },
-          },
-          { quoted: message },
-        );
-
-        await socket.sendMessage(
-          jid,
-          {
-            text: `
+            caption: `
 Permintaan berhasil di proses${ReadMoreUnicode}
 Title: ${data.title}
-
-> ${url}
-              `.trim(),
+                          `.trim(),
+            contextInfo: {
+              externalAdReply: {
+                title: 'X Downloader',
+                body: data.title,
+                sourceUrl: url.toString(),
+                // @ts-ignore
+                previewType: 2,
+                mediaType: 2,
+                mediaUrl: links[links.length - 1].url,
+                thumbnailUrl: data.thumbnail,
+              },
+            },
           },
           { quoted: message },
         );

@@ -49,7 +49,20 @@ export class InstagramAudioDownloaderAction extends WhatsappMessageAction {
                 url: data.url,
               },
               mimetype: 'audio/mp4',
+              contextInfo: {
+                externalAdReply: {
+                  title: 'Instagram Audio Downloader',
+                  body: url.toString(),
+                  sourceUrl: url.toString(),
+                  // @ts-ignore
+                  previewType: 2,
+                  mediaType: 2,
+                  mediaUrl: data.url,
+                  thumbnailUrl: data.url,
+                },
+              },
             },
+
             { quoted: message },
           );
         }

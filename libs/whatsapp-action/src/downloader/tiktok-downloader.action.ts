@@ -77,6 +77,18 @@ ${totalVideo > 0 ? 'Total Video: ' + totalVideo : ''}
 
 > ${url}
               `.trim(),
+            contextInfo: {
+              externalAdReply: {
+                title: 'TikTok Downloader',
+                body: url.toString(),
+                sourceUrl: url.toString(),
+                // @ts-ignore
+                previewType: 2,
+                mediaType: 2,
+                mediaUrl: video,
+                thumbnailUrl: images[0],
+              },
+            },
           },
           { quoted: message },
         );

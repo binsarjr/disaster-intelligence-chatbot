@@ -61,6 +61,19 @@ export class YoutubeDownloaderAction extends WhatsappMessageAction {
               `Duration: ${duration}\n` +
               `Author: ${info.videoDetails.author.name}\n` +
               `Link: ${url.toString()}`,
+
+            contextInfo: {
+              externalAdReply: {
+                title: 'Youtube Downloader',
+                body: info.videoDetails.title,
+                sourceUrl: url.toString(),
+                // @ts-ignore
+                previewType: 2,
+                mediaType: 2,
+                mediaUrl: formats[0].url,
+                thumbnailUrl: info.videoDetails.thumbnails[0].url,
+              },
+            },
           },
           { quoted: message },
         );
