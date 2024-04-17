@@ -56,6 +56,7 @@ Jarak: ${results.parameter.jarak}
       `.trim(),
         contextInfo: {
           externalAdReply: {
+            showAdAttribution: true,
             title: 'Jadwal Sholat Kota ' + cities[0].cityName,
             sourceUrl:
               'https://jadwalsholat.org/jadwal-sholat/monthly.php?id=' +

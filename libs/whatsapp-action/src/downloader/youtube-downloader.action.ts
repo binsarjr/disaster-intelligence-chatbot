@@ -64,6 +64,7 @@ export class YoutubeDownloaderAction extends WhatsappMessageAction {
 
             contextInfo: {
               externalAdReply: {
+                showAdAttribution: true,
                 title: 'Youtube Downloader',
                 body: info.videoDetails.title,
                 sourceUrl: url.toString(),

@@ -63,6 +63,7 @@ Title: ${data.title}
                           `.trim(),
             contextInfo: {
               externalAdReply: {
+                showAdAttribution: true,
                 title: 'X Downloader',
                 body: data.title,
                 sourceUrl: url.toString(),

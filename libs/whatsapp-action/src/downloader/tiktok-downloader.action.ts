@@ -79,6 +79,7 @@ ${totalVideo > 0 ? 'Total Video: ' + totalVideo : ''}
               `.trim(),
             contextInfo: {
               externalAdReply: {
+                showAdAttribution: true,
                 title: 'TikTok Downloader',
                 body: url.toString(),
                 sourceUrl: url.toString(),

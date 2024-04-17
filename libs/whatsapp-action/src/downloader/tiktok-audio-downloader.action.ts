@@ -53,6 +53,7 @@ export class TiktokAudioDownloaderAction extends WhatsappMessageAction {
                 mimetype: 'audio/mp4',
                 contextInfo: {
                   externalAdReply: {
+                    showAdAttribution: true,
                     title: 'TikTok Audio Downloader',
                     body: url.toString(),
                     sourceUrl: url.toString(),

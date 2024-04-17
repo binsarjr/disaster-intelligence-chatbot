@@ -51,6 +51,7 @@ export class InstagramAudioDownloaderAction extends WhatsappMessageAction {
               mimetype: 'audio/mp4',
               contextInfo: {
                 externalAdReply: {
+                  showAdAttribution: true,
                   title: 'Instagram Audio Downloader',
                   body: url.toString(),
                   sourceUrl: url.toString(),

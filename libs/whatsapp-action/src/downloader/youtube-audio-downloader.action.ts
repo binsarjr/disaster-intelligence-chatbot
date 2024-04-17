@@ -54,6 +54,7 @@ export class YoutubeAudioDownloaderAction extends WhatsappMessageAction {
             mimetype: formats[0].mimeType.split(';')[0],
             contextInfo: {
               externalAdReply: {
+                showAdAttribution: true,
                 title: 'Youtube Audio Downloader',
                 body: info.videoDetails.title,
                 sourceUrl: url.toString(),
