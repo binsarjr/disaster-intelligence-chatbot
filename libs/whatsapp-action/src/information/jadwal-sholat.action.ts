@@ -3,6 +3,7 @@ import { WhatsappMessage } from '@app/whatsapp/decorators/whatsapp-message.decor
 import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interface';
 import { withSign, withSignRegex } from '@app/whatsapp/supports/flag.support';
 import { getMessageCaption } from '@app/whatsapp/supports/message.support';
+import { jadwalsholat } from '@bochilteam/scraper-religions';
 import type { WAMessage, WASocket } from '@whiskeysockets/baileys';
 import { customSplit } from 'src/supports/str.support';
 
@@ -16,30 +17,39 @@ export class JadwalSholatAction extends WhatsappMessageAction {
   async execute(socket: WASocket, message: WAMessage) {
     this.reactToProcessing(socket, message);
 
-    const [_, kota = 'jakarta'] = customSplit(
+    const [_, kota = 'jakarta pusat'] = customSplit(
       getMessageCaption(message.message!),
       ' ',
       2,
     );
-    const negara = 'indonesia';
 
-    const results = await this.islamicFinder.getSchedule(negara, kota);
+    try {
+      const results = await jadwalsholat(kota);
 
-    let jadwa = results
-      .map((result) => `${result.prayerName} ${result.prayerTime}`)
-      .join('\n');
+      await socket.sendMessage(message.key.remoteJid!, {
+        text: `
+Jadwal Sholat *${kota}*:
 
-    await socket.sendMessage(message.key.remoteJid!, {
-      text: `
-negara: *${negara}*
-Kota: *${kota}*
-
-Jadwal Sholat:
-${jadwa}
+${Object.entries(results.today)
+  .map(([key, value]) => `*Sholat ${key}*: ${value}`)
+  .join('\n')}
 
       `.trim(),
-    });
-
-    this.reactToDone(socket, message);
+      });
+      this.reactToDone(socket, message);
+    } catch (error) {
+      const text = error.message;
+      if (text.includes('Did you mean')) {
+        await socket.sendMessage(
+          message.key.remoteJid!,
+          {
+            text: `${text}`,
+          },
+          { quoted: message },
+        );
+      }
+      console.error(error);
+      this.reactToFailed(socket, message);
+    }
   }
 }
