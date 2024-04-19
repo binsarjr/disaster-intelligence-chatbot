@@ -66,6 +66,12 @@ ${textDisk.join('\n\n')}
       
               `.trim(),
         ),
+        contextInfo: {
+          externalAdReply: {
+            showAdAttribution: true,
+            sourceUrl: 'https://whatsapp.com/channel/0029VabgCmX1SWt6DGepyM2e',
+          },
+        },
       },
       {
         quoted: message,
