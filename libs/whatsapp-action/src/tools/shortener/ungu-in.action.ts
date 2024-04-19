@@ -92,6 +92,7 @@ export class UnguInAction extends WhatsappMessageAction {
       url = two;
       shorten = one;
     }
+    this.reactToProcessing(socket, message);
 
     const result = await this.shorten(url, shorten);
 
@@ -116,6 +117,7 @@ Original: ${result.data.original}
         },
         { quoted: message },
       );
+      this.reactToDone(socket, message);
     } else {
       await socket.sendMessage(
         message.key.remoteJid!,
@@ -124,6 +126,7 @@ Original: ${result.data.original}
         },
         { quoted: message },
       );
+      this.reactToFailed(socket, message);
     }
   }
 }
