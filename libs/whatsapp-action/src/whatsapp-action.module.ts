@@ -17,6 +17,7 @@ import { MentionMemberAction } from '@app/whatsapp-action/group/mention-member.a
 import { PromoteMemberAction } from '@app/whatsapp-action/group/promote-member.action';
 import { WelcomeCardAction } from '@app/whatsapp-action/group/welcome-card.action';
 import { JadwalSholatAction } from '@app/whatsapp-action/information/jadwal-sholat.action';
+import { NikParseAction } from '@app/whatsapp-action/information/tools/nik-parse.action';
 import { SimpleMenuAction } from '@app/whatsapp-action/menus/simple-menu.action';
 import { ConvertToHDAction } from '@app/whatsapp-action/random/convert-to-hd.action';
 import { ImgToStickerAction } from '@app/whatsapp-action/random/img-to-sticker.action';
@@ -62,6 +63,8 @@ import { Module } from '@nestjs/common';
     SimpleMenuAction,
 
     JadwalSholatAction,
+
+    NikParseAction,
   ],
 })
 export class WhatsappActionModule {}
