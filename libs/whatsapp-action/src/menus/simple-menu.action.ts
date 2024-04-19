@@ -31,6 +31,7 @@ Menu:
 - *${withSign('menu')}* - Show this menu
 
 
+
 ${ReadMoreUnicode}
 Downloader:
 - *${withSign('tt')} <link>* - Download video from TikTok
@@ -44,6 +45,11 @@ ${ReadMoreUnicode}
 Game Truth Or Dare:
 - *${withSign('dare')}* - Dare Game
 - *${withSign('truth')}* - Truth Game
+
+${ReadMoreUnicode}
+
+Tools:
+- *${withSign('nik <nik 16 digit>')}* - NIK Parser
 
 ${ReadMoreUnicode}
 > Timestamp: ${new Date().toLocaleString()}
