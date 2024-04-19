@@ -13,6 +13,18 @@ export class SimpleMenuAction extends WhatsappMessageAction {
       message.key.remoteJid!,
       {
         text: this.menu(),
+        contextInfo: {
+          externalAdReply: {
+            showAdAttribution: true,
+            title: 'Karina Whatsapp Bot',
+            body: 'Simple Menu',
+            renderLargerThumbnail: true,
+            mediaType: 1,
+            sourceUrl: 'https://github.com/binsarjr',
+            thumbnailUrl:
+              'https://static.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/p1/916/2023/11/28/kpopchart-33-3087925243.png',
+          },
+        },
       },
       { quoted: message },
     );
