@@ -24,6 +24,7 @@ import { PingAction } from '@app/whatsapp-action/random/ping.action';
 import { StickerToImgAction } from '@app/whatsapp-action/random/sticker-to-img.action';
 import { ScanQrCodeAction } from '@app/whatsapp-action/scan-qr-code.action';
 import { NikParseAction } from '@app/whatsapp-action/tools/nik-parse.action';
+import { UnguInAction } from '@app/whatsapp-action/tools/shortener/ungu-in.action';
 import { Module } from '@nestjs/common';
 
 @Module({
@@ -65,6 +66,8 @@ import { Module } from '@nestjs/common';
     JadwalSholatAction,
 
     NikParseAction,
+    // shortener
+    UnguInAction,
   ],
 })
 export class WhatsappActionModule {}

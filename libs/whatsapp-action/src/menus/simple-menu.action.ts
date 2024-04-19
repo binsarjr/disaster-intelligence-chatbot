@@ -52,6 +52,11 @@ Tools:
 - *${withSign('nik <nik 16 digit>')}* - NIK Parser
 
 ${ReadMoreUnicode}
+Shortener:
+- *${withSign('unguin <original link>')}* - Shorten link with Ungu.in
+- *${withSign('unguin <custom shorten link> <original link>')}* - Custom Shorten link with Ungu.in
+
+${ReadMoreUnicode}
 > Timestamp: ${new Date().toLocaleString()}
 
     `.trim();
