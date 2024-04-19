@@ -86,6 +86,7 @@ export class UnguInAction extends WhatsappMessageAction {
 
   async execute(socket: WASocket, message: WAMessage) {
     const [_, one, two] = getMessageCaption(message.message).split(/\s+/, 3);
+    console.log(one, two, 'one two');
     let url = one;
     let shorten = null;
     if (two) {
