@@ -10,7 +10,6 @@ export class JNE {
         Referer: 'https://jne.co.id/',
       },
     });
-    if (!resp.ok) return null;
     const body = await resp.text();
     const $ = load(body);
 
@@ -21,6 +20,8 @@ export class JNE {
     const to = widgetDashboard.eq(2).find('div').text().trim();
     const estimateDelivery = widgetDashboard.eq(3).find('div').text().trim();
     const podDate = widgetDashboard.eq(4).find('div').text().trim();
+
+    if (!resp.ok || !from) return null;
 
     return {
       link: `https://cekresi.jne.co.id/${awb}`,

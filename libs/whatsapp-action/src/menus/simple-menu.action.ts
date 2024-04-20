@@ -64,6 +64,10 @@ Tools:
 - *${withSign('nik <nik 16 digit>')}* - NIK Parser
 
 ${ReadMoreUnicode}
+Cek Resi
+- *${withSign('jne <resi>')}* - Cek Resi dari JNE
+
+${ReadMoreUnicode}
 Shortener:
 - *${withSign('unguin <original link>')}* - Shorten link with Ungu.in
 - *${withSign('unguin <custom shorten link> <original link>')}* - Custom Shorten link with Ungu.in
