@@ -6,9 +6,9 @@ import { getMessageCaption } from '@app/whatsapp/supports/message.support';
 import type { WAMessage, WASocket } from '@whiskeysockets/baileys';
 
 @WhatsappMessage({
-  flags: [withSignRegex('jne .*')],
+  flags: [withSignRegex('tiki .*')],
 })
-export class JneAction extends WhatsappMessageAction {
+export class TikiAction extends WhatsappMessageAction {
   constructor(private readonly cekresi: CekResi) {
     super();
   }
@@ -18,7 +18,7 @@ export class JneAction extends WhatsappMessageAction {
     const [_, ...resi] = getMessageCaption(message.message).split(/\s+/);
     await Promise.all(
       resi.map(async (resi) => {
-        const result = await this.cekresi.jne(resi);
+        const result = await this.cekresi.tiki(resi);
         if (!result) {
           await socket.sendMessage(
             message.key.remoteJid!,

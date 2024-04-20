@@ -65,7 +65,9 @@ Tools:
 
 ${ReadMoreUnicode}
 Cek Resi
+- *${withSign('cekresi <resi>')}* - Cek Resi otomatis cek expedisi (Lebih Lambat)
 - *${withSign('jne <resi>')}* - Cek Resi dari JNE
+- *${withSign('tiki <resi>')}* - Cek Resi dari TIKI
 
 ${ReadMoreUnicode}
 Shortener:
