@@ -12,7 +12,6 @@ export class JNEParser implements CekresiParser {
     $('br').replaceWith(' - ');
 
     let information: string[] = [];
-    console.log($.html());
 
     $('table')
       .eq(0)

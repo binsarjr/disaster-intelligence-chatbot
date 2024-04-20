@@ -1,4 +1,5 @@
 import { CekResi } from '@app/external-module/cekresei';
+import { ReadMoreUnicode } from '@app/whatsapp/constants';
 import { WhatsappMessage } from '@app/whatsapp/decorators/whatsapp-message.decorator';
 import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interface';
 import { withSignRegex } from '@app/whatsapp/supports/flag.support';
@@ -27,7 +28,11 @@ export class CekResiAction extends WhatsappMessageAction {
         await socket.sendMessage(
           message.key.remoteJid!,
           {
-            text: 'Resi tidak ditemukan',
+            text: `
+Resi ${resi} tidak ditemukan.
+${ReadMoreUnicode}
+Apabila kamu yakin resi ini ada, coba jalankan lagi nanti
+            `.trim(),
           },
           { quoted: message },
         );
@@ -48,7 +53,6 @@ export class CekResiAction extends WhatsappMessageAction {
               thumbnailUrl: result.thumbnail,
               renderLargerThumbnail: true,
             },
-            forwardingScore: Math.random() * 100,
           },
         },
         { quoted: message },
