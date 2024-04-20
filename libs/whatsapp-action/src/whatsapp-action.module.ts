@@ -23,6 +23,7 @@ import { ImgToStickerAction } from '@app/whatsapp-action/random/img-to-sticker.a
 import { PingAction } from '@app/whatsapp-action/random/ping.action';
 import { StickerToImgAction } from '@app/whatsapp-action/random/sticker-to-img.action';
 import { ScanQrCodeAction } from '@app/whatsapp-action/scan-qr-code.action';
+import { CekresiModule } from '@app/whatsapp-action/tools/cekresi/cekresi.module';
 import { NikParseAction } from '@app/whatsapp-action/tools/nik-parse.action';
 import { UnguInAction } from '@app/whatsapp-action/tools/shortener/ungu-in.action';
 import { Module } from '@nestjs/common';
@@ -31,7 +32,8 @@ import { Module } from '@nestjs/common';
   imports: [
     AnonymousChatModule,
     TruthOrDareModule,
-    // ConfessChatModule
+    // ConfessChatModule,
+    CekresiModule,
   ],
   providers: [
     ScanQrCodeAction,
