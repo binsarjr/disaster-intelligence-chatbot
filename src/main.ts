@@ -44,5 +44,14 @@ async function bootstrap() {
 
   await app.close();
 }
+process.on('uncaughtException', (err) => {
+  console.error('There was an uncaught error', err);
+  // Lakukan tindakan yang diperlukan, misalnya log error atau kirim notifikasi
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Lakukan tindakan yang diperlukan, misalnya log error atau kirim notifikasi
+});
 
 bootstrap();
