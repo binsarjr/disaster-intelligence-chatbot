@@ -18,7 +18,9 @@ export class RejectCallAction {
 
       if (call.status == 'reject' && isJidUser(call.chatId)) {
         await socket.sendMessage(call.chatId, {
-          text: injectRandomHiddenText('Jangan telpon nomor bot ini'),
+          text: injectRandomHiddenText(
+            'Mohon maaf nomor ini tidak menerima panggilan masuk apapun. Mohon pengertiannya',
+          ),
         });
       }
     }

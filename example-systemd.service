@@ -1,5 +1,5 @@
 [Unit]
-Description=Whatsapp Bot
+Description=Disaster Intelligence Chatbot
 After=network.target
 
 [Service]
