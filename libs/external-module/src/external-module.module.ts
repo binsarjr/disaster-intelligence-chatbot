@@ -1,4 +1,5 @@
 import { Module, type DynamicModule } from '@nestjs/common';
+import { ChatgptService } from './chatgpt.service';
 
 @Module({})
 export class ExternalModuleModule {
@@ -7,8 +8,8 @@ export class ExternalModuleModule {
       global: true,
       module: ExternalModuleModule,
       imports: [],
-      providers: [],
-      exports: [],
+      providers: [ChatgptService],
+      exports: [ChatgptService],
     };
   }
 }

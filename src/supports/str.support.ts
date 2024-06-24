@@ -1,5 +1,19 @@
 import { CHARS, UnicodeSteganographer } from 'src/supports/unicode.support';
 
+export const whatsappFormat = (text: string) => {
+  // replace **text** to *text*
+  text = text.replace(/\*\*(.*?)\*\*/g, '*$1*');
+  // replace __text__ to _text_
+  text = text.replace(/__(.*?)__/g, '_$1_');
+  // replace [text](url) to *text* (url)
+  text = text.replace(/\[(.*?)\]\((.*?)\)/g, '*$1* ($2)');
+  // replace [text] to *text*
+  text = text.replace(/\[(.*?)\]/g, '*$1*');
+  // remove all headings (#)
+  text = text.replace(/^#+/gm, '');
+  return text;
+};
+
 export const randomString = (length: number): string => {
   const chars =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -39,7 +53,7 @@ export const injectRandomHiddenText = (text: string) => {
 
 export function customSplit(str: string, separator: string, maxParts: number) {
   // Inisialisasi array hasil
-  let result = [];
+  const result = [];
 
   // Jika string kosong, kembalikan array kosong
   if (str.length === 0) {

@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -30,20 +30,11 @@ model AuthSessionStore {
   @@index([deviceId])
 }
 
-model ChatMode {
-  jid  String @id
-  mode String
-}
-
-model AnonymousChat {
-  id        String  @id
-  partnerId String?
-}
-
-model ConfessChat {
-  jid                  String    @id
-  receiverJid          String
-  senderName           String?
-  message              String
-  lastMessageTimestamp DateTime?
+model HistoryChat {
+  id        String   @id @default(cuid())
+  jid       String
+  fromMe    Boolean
+  meta      Json // as WhatsappMessage Type
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -37,6 +37,9 @@ async function bootstrap() {
 
   const app = await NestFactory.createApplicationContext(AppModule);
 
+  const service = app.select(WhatsappActionModule).get(ScanQrCodeAction);
+  await service.scan('Chatbot');
+
   const whatsappConnection = app
     .select(WhatsappModule.forRoot())
     .get(WhatsappConnectionService);
