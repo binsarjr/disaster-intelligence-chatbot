@@ -26,6 +26,6 @@ export class ChatgptService {
     });
 
     const data = await response.json();
-    return data;
+    return data?.choices[0]?.message?.content || null;
   }
 }

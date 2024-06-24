@@ -2,9 +2,15 @@ import { RejectCallAction } from '@app/whatsapp-action/always-executed/spam/reje
 import { ScanQrCodeAction } from '@app/whatsapp-action/scan-qr-code.action';
 import { Module } from '@nestjs/common';
 import { ChatbotAction } from './chatbot/chatbot.action';
+import { GroupChatbotAction } from './chatbot/groupchatbot.action';
 
 @Module({
   imports: [],
-  providers: [ScanQrCodeAction, RejectCallAction, ChatbotAction],
+  providers: [
+    ScanQrCodeAction,
+    RejectCallAction,
+    ChatbotAction,
+    GroupChatbotAction,
+  ],
 })
 export class WhatsappActionModule {}
