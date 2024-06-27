@@ -40,11 +40,6 @@ async function bootstrap() {
   const service = app.select(WhatsappActionModule).get(ScanQrCodeAction);
   await service.scan('Chatbot');
 
-  const whatsappConnection = app
-    .select(WhatsappModule.forRoot())
-    .get(WhatsappConnectionService);
-  whatsappConnection.connectingAllDevice();
-
   await app.close();
 }
 process.on('uncaughtException', (err) => {

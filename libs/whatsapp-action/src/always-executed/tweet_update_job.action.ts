@@ -1,8 +1,10 @@
-import { WhatsappConnectionService } from '@app/whatsapp/core/whatsapp-connection.service';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { TwitterOpenApi } from 'twitter-openapi-typescript';
 import * as fs from 'fs';
 import { sleep } from 'src/supports/time.support';
+import { PrismaService } from '@app/prisma';
+import { WhatsappStoreService } from '@app/whatsapp/core/whatsapp-store.service';
+import { randomInt } from 'crypto';
 
 interface TweetAccount {
   ct0: string;
@@ -18,8 +20,21 @@ export class TweetUpdateJob implements OnModuleInit {
   private userRestId: string = '';
 
   constructor(
-    private readonly whatsappConnectionService: WhatsappConnectionService,
+    private readonly whatsappStoreService: WhatsappStoreService,
+    private readonly prisma: PrismaService,
   ) {}
+
+  async loadSocket() {
+    const devices = await this.prisma.device.findMany();
+
+    for (const device of devices) {
+      const socket = this.whatsappStoreService.get(device.id);
+      if (socket) {
+        return socket;
+      }
+    }
+    return null;
+  }
 
   async loadAccount() {
     const twitter = JSON.parse(
@@ -38,7 +53,6 @@ export class TweetUpdateJob implements OnModuleInit {
   async onModuleInit() {
     this._twitterAccounts = await this.loadAccount();
     await this.rotateAccount();
-
     await this.loadUserRestId();
 
     while (true) {
@@ -49,11 +63,46 @@ export class TweetUpdateJob implements OnModuleInit {
         console.log(`Tweet ID: ${latestTweet?.restId}`);
         console.log(`Teks: ${latestTweet?.legacy.fullText}`);
         console.log(`Tanggal Dibuat: ${latestTweet?.legacy.createdAt}`);
+
+        const lastAnnoucement = await this.prisma.historyAnnouncement.findFirst(
+          {
+            orderBy: {
+              createdAt: 'desc',
+            },
+          },
+        );
+
+        if (lastAnnoucement) {
+          if (lastAnnoucement.id == latestTweet?.restId) {
+            console.log('Tidak ada update');
+            continue;
+          }
+        }
+
+        const groups = await this.prisma.groupChat.findMany();
+        const socket = await this.loadSocket();
+        if (socket) {
+          for (const group of groups) {
+            await socket.socket.sendMessage(group.jid, {
+              text: latestTweet?.legacy.fullText,
+            });
+
+            await sleep(randomInt(2000, 5000));
+          }
+
+          await this.prisma.historyAnnouncement.create({
+            data: {
+              text: latestTweet?.legacy.fullText,
+              meta: latestTweet as any,
+              id: latestTweet?.restId,
+            },
+          });
+        }
       } catch (error) {
         console.error('TweetUpdateJob', error);
       }
 
-      await sleep(2000);
+      await sleep(5000);
     }
   }
 
@@ -85,8 +134,6 @@ export class TweetUpdateJob implements OnModuleInit {
     });
 
     const data = response.data as TweetResult;
-    fs.writeFileSync('data.json', JSON.stringify(data, null, 2));
-    console.log(JSON.stringify(data, null, 2));
 
     // get latest tweets
     const entries = data.raw.instruction!.filter((type) =>

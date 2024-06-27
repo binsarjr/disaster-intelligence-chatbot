@@ -21,6 +21,6 @@ export class ScanQrCodeAction {
         name: deviceName,
       },
     });
-    // this.whatsappConnection.connectToWhatsapp(device.id);
+    this.whatsappConnection.connectToWhatsapp(device.id);
   }
 }

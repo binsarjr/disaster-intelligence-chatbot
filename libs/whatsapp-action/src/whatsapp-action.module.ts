@@ -4,6 +4,7 @@ import { Module } from '@nestjs/common';
 import { ChatbotAction } from './chatbot/chatbot.action';
 import { GroupChatbotAction } from './chatbot/groupchatbot.action';
 import { TweetUpdateJob } from './always-executed/tweet_update_job.action';
+import { RegisterGroupAction } from './chatbot/registergroup.action';
 
 @Module({
   imports: [],
@@ -16,6 +17,7 @@ import { TweetUpdateJob } from './always-executed/tweet_update_job.action';
 
     // jobs
     TweetUpdateJob,
+    RegisterGroupAction,
   ],
 })
 export class WhatsappActionModule {}

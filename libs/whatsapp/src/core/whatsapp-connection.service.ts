@@ -24,6 +24,9 @@ export class WhatsappConnectionService {
     private readonly whatsappMessageService: WhatsappMessageService,
     private readonly whatsappEventService: WhatsappEventService,
   ) {}
+  onModuleInit() {
+    this.connectingAllDevice();
+  }
 
   async connectingAllDevice() {
     const devices = await this.prisma.device.findMany();
