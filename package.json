@@ -45,6 +45,7 @@
     "qrcode-terminal": "^0.12.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+    "twitter-openapi-typescript": "^0.0.34",
     "uid": "^2.0.2",
     "wa-sticker-formatter": "^4.4.4",
     "ytdl-core": "^4.11.5",
