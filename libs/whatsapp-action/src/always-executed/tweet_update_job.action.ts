@@ -81,7 +81,7 @@ export class TweetUpdateJob implements OnModuleInit {
 
           if (lastAnnoucement) {
             if (lastAnnoucement.id == latestTweet?.restId) {
-              console.log('Tidak ada update');
+              this.logger.info('Tidak ada update');
               continue;
             }
           }
@@ -159,7 +159,7 @@ ${latestTweet?.legacy?.fullText}
       );
 
       if (tweets.length === 0) {
-        console.log('Tidak ada tweet yang ditemukan.');
+        this.logger.warn('Tidak ada tweet yang ditemukan.');
         // return;
       }
 
