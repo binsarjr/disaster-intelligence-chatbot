@@ -6,6 +6,7 @@ import { GroupChatbotAction } from './chatbot/groupchatbot.action';
 import { TweetUpdateJob } from './always-executed/tweet_update_job.action';
 import { RegisterGroupAction } from './chatbot/registergroup.action';
 import { DeleteGroupAction } from './chatbot/deletegroup.action';
+import { ResetAction } from './always-executed/reset.action';
 
 @Module({
   imports: [],
@@ -20,6 +21,7 @@ import { DeleteGroupAction } from './chatbot/deletegroup.action';
     TweetUpdateJob,
     RegisterGroupAction,
     DeleteGroupAction,
+    ResetAction,
   ],
 })
 export class WhatsappActionModule {}
