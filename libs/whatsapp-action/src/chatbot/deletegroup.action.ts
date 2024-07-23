@@ -2,18 +2,18 @@ import { PrismaService } from '@app/prisma';
 import { IsEligible } from '@app/whatsapp/decorators/is-eligible.decorator';
 import { WhatsappMessage } from '@app/whatsapp/decorators/whatsapp-message.decorator';
 import { WhatsappMessageAction } from '@app/whatsapp/interfaces/whatsapp.interface';
-import { withSign, withSignRegex } from '@app/whatsapp/supports/flag.support';
+import { withSign } from '@app/whatsapp/supports/flag.support';
 import {
-  isJidGroup,
-  jidNormalizedUser,
   WAMessage,
   WASocket,
+  isJidGroup,
+  jidNormalizedUser,
 } from '@whiskeysockets/baileys';
 
 @WhatsappMessage({
-  flags: [withSign('register'), withSign('start')],
+  flags: [withSign('delete'), withSign('stop')],
 })
-export class RegisterGroupAction extends WhatsappMessageAction {
+export class DeleteGroupAction extends WhatsappMessageAction {
   constructor(private readonly prisma: PrismaService) {
     super();
   }
@@ -27,26 +27,14 @@ export class RegisterGroupAction extends WhatsappMessageAction {
     return isJidGroup(message.key.remoteJid);
   }
   async execute(socket: WASocket, message: WAMessage) {
-    let group = await this.prisma.groupChat.findFirst({
+    await this.prisma.groupChat.delete({
       where: {
         jid: jidNormalizedUser(message.key.remoteJid),
       },
     });
 
-    if (!group) {
-      const meta = await socket.groupMetadata(message.key.remoteJid);
-      group = await this.prisma.groupChat.create({
-        data: {
-          jid: jidNormalizedUser(message.key.remoteJid),
-          name: meta.subject,
-        },
-      });
-    }
-
     await socket.sendMessage(message.key.remoteJid, {
-      text: `
-Group Dengan Nama ${group.name} Berhasil Diregistrasi ke sistem disaster intelligence.
-`.trim(),
+      text: 'This group has been disabled and will not receive new notifications',
     });
   }
 }

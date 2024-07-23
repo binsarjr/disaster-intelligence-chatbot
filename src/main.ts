@@ -9,10 +9,6 @@ import * as inquirer from 'inquirer';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  // const app = await NestFactory.create(AppModule);
-  // await app.listen(3000);
-  // await CommandFactory.run(AppModule);
-
   if (process.argv.includes('--login')) {
     const inputs = await inquirer.prompt([
       {
@@ -27,7 +23,6 @@ async function bootstrap() {
     }
 
     const loginApp = await NestFactory.createApplicationContext(AppModule);
-
     const service = loginApp.select(WhatsappActionModule).get(ScanQrCodeAction);
     await service.scan(inputs.deviceName);
 
@@ -36,9 +31,6 @@ async function bootstrap() {
   }
 
   const app = await NestFactory.createApplicationContext(AppModule);
-
-  const service = app.select(WhatsappActionModule).get(ScanQrCodeAction);
-  await service.scan('Chatbot');
 
   await app.close();
 }
